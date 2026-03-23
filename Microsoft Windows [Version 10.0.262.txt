@@ -1,0 +1,97 @@
+Microsoft Windows [Version 10.0.26200.8037]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\anish> mongosh
+Current Mongosh Log ID: 69c09dce15454ec077114029
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.8.1
+MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017
+
+C:\Users\anish>mongosh "mongodb+srv://cluster0.zommuva.mongodb.net/" --apiVersion 1 --username Anisha
+Enter password: ********
+Current Mongosh Log ID: 69c0a0014be8f8d55d114029
+Connecting to:          mongodb+srv://<credentials>@cluster0.zommuva.mongodb.net/?appName=mongosh+2.8.1
+Using MongoDB:          8.0.20 (API Version 1)
+Using Mongosh:          2.8.1
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.
+
+Atlas atlas-s6t3k2-shard-0 [primary] test> use collegedb
+switched to db collegedb
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.createCollection('students')
+{ ok: 1 }
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.insertMany([ {name: "Ram", age:19},{name: "Sita", age:21}, {name: "Gita", age: 22}, {name: "Shyam", age:18} ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69c0a3eb4be8f8d55d11402a'),
+    '1': ObjectId('69c0a3eb4be8f8d55d11402b'),
+    '2': ObjectId('69c0a3eb4be8f8d55d11402c'),
+    '3': ObjectId('69c0a3eb4be8f8d55d11402d')
+  }
+}
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> show dbs
+collegedb      72.00 KiB
+sample_mflix  115.99 MiB
+admin         340.00 KiB
+local          18.47 GiB
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.find().pretty
+[Function: pretty] {
+  returnType: 'this',
+  serverVersions: [ '0.0.0', '999.999.999' ],
+  apiVersions: [ 0, Infinity ],
+  topologies: [ 'ReplSet', 'Standalone', 'Sharded', 'LoadBalanced' ],
+  returnsPromise: false,
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  newShellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.find().pretty()
+[
+  { _id: ObjectId('69c09f0234876907d0fb6513') },
+  { _id: ObjectId('69c0a3eb4be8f8d55d11402a'), name: 'Ram', age: 19 },
+  { _id: ObjectId('69c0a3eb4be8f8d55d11402b'), name: 'Sita', age: 21 },
+  { _id: ObjectId('69c0a3eb4be8f8d55d11402c'), name: 'Gita', age: 22 },
+  { _id: ObjectId('69c0a3eb4be8f8d55d11402d'), name: 'Shyam', age: 18 }
+]
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.find({age: {$gt:20}}).pretty()
+[
+  { _id: ObjectId('69c0a3eb4be8f8d55d11402b'), name: 'Sita', age: 21 },
+  { _id: ObjectId('69c0a3eb4be8f8d55d11402c'), name: 'Gita', age: 22 }
+]
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.find({grade: "A"}).pretty()
+
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.find({name: "Ram"}).pretty()
+[ { _id: ObjectId('69c0a3eb4be8f8d55d11402a'), name: 'Ram', age: 19 } ]
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.updateOne( {name: "Ram"}, {$set: {grade: "B"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.deleteOne({name: "Sita"})
+{ acknowledged: true, deletedCount: 1 }
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.find().pretty()
+[
+  { _id: ObjectId('69c09f0234876907d0fb6513') },
+  {
+    _id: ObjectId('69c0a3eb4be8f8d55d11402a'),
+    name: 'Ram',
+    age: 19,
+    grade: 'B'
+  },
+  { _id: ObjectId('69c0a3eb4be8f8d55d11402c'), name: 'Gita', age: 22 },
+  { _id: ObjectId('69c0a3eb4be8f8d55d11402d'), name: 'Shyam', age: 18 }
+]
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb> db.students.countDocuments()
+4
+Atlas atlas-s6t3k2-shard-0 [primary] collegedb>
